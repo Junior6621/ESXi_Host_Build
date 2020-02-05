@@ -1,0 +1,7 @@
+$esxcli = Get-EsxCli -VMHost (Get-VMHost "esx01.machine.local") -V2
+$params = $esxcli.network.diag.ping.CreateArgs()
+$params.host = '192.168.1.194'
+$params.interface  = 'vmk0'
+$params.size = '9000' #use 1472 for 1500 MTU or 8972 for 9000 MTU (VMware uses these values on MTU pings on ESXi)
+$res = $esxcli.network.diag.ping.Invoke($params)
+$res.summary
